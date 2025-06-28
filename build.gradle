@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.33'
+}
+
+group = 'org.automationserenity'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    jcenter()
+}
+
+ext {
+    serenityVersion     = '4.2.33'
+    junitVersion        = '4.13.2'
+    assertJVersion      = '3.24.2'
+    slf4jVersion        = '1.7.36'
+    logbackVersion      = '1.2.11'
+}
+
+dependencies {
+    testImplementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    testImplementation "net.serenity-bdd:serenity-junit:${serenityVersion}"
+    testImplementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
+    testImplementation "junit:junit:${junitVersion}"
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+    systemProperties System.getProperties()
+    finalizedBy('aggregate')
+}
+
+gradle.startParameter.continueOnFailure = true
+
+defaultTasks 'clean', 'test', 'aggregate'

@@ -1,23 +1,19 @@
 plugins {
     id 'java'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '4.2.33'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '3.7.0'
 }
 
-group = 'org.automationserenity'
-version = '1.0-SNAPSHOT'
+group 'your.group.id'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    mavenLocal()
-    jcenter()
 }
 
 ext {
-    serenityVersion     = '4.2.33'
-    junitVersion        = '4.13.2'
-    assertJVersion      = '3.24.2'
-    slf4jVersion        = '1.7.36'
-    logbackVersion      = '1.2.11'
+    serenityVersion = '3.7.0'
+    junitVersion = '4.13.2'
+    assertJVersion = '3.24.2'
 }
 
 dependencies {
@@ -28,19 +24,10 @@ dependencies {
     testImplementation "org.assertj:assertj-core:${assertJVersion}"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 test {
+    useJUnit() // JUnit 4 runner for Serenity
     testLogging {
+        events "passed", "failed", "skipped"
         showStandardStreams = true
     }
-    systemProperties System.getProperties()
-    finalizedBy('aggregate')
 }
-
-gradle.startParameter.continueOnFailure = true
-
-defaultTasks 'clean', 'test', 'aggregate'
